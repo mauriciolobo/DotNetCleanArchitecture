@@ -1,0 +1,56 @@
+﻿@model List<CleanArch.Core.Features.Todo.Queries.TodoDto>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-group">
+                    @foreach (var todo in Model)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            @todo.Name
+
+                            @if (todo.Complete)
+                            {
+                                <span class="badge badge-primary badge-pill">Completed</span>
+                            }
+                            else
+                            {
+                                <form asp-action="Complete" method="post">
+                                    <button class="btn btn-danger badge badge-danger badge-pill" name="TodoId" value="@todo.Id">Incomplete</button>
+                                </form>
+                            }
+                        </li>
+                    }
+                    <li class="list-group-item">
+                        <form asp-action="Add" method="post" class="form-group text-left">
+                            <label class="ml-2">Add new Item</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Task Name" name="Name" aria-label="Task name" aria-describedby="button-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary" type="submit" id="button-addon2">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card mt-5">
+            <div class="card-header">
+                NEXT STEPS:
+            </div>
+            <div class="card-body">
+                <ul class="text-left">
+                    <li>Create Pipeline + Validation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
