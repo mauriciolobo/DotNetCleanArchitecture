@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CleanArch.Core;
+using Microsoft.OpenApi.Models;
 
 namespace CleanArch.WebMvc
 {
@@ -25,6 +26,11 @@ namespace CleanArch.WebMvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication1", Version = "v1" });
+            });
 
             services.AddTodoApp();
 
@@ -48,6 +54,14 @@ namespace CleanArch.WebMvc
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication1 v1");
+                c.RoutePrefix = "docs";
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -57,6 +71,11 @@ namespace CleanArch.WebMvc
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
+                endpoints.MapAreaControllerRoute(
+                    name: "PublicAPIs",
+                    areaName: "API",
+                    pattern: "api/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
