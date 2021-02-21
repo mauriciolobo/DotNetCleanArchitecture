@@ -1,4 +1,5 @@
 ﻿using CleanArch.Core.Data;
+using CleanArch.Core.Infra.Logging;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,8 @@ namespace CleanArch.Core
         public static IServiceCollection AddTodoApp(this IServiceCollection services)
         {
             services.AddMediatR(typeof(Configuration));
+
+            services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
             return services;
         }
