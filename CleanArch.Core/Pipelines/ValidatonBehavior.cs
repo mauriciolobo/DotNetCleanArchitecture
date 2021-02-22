@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 
-namespace CleanArch.Core
+namespace CleanArch.Core.Pipelines
 {
     public class ValidatonBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {

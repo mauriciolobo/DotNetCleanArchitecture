@@ -1,9 +1,11 @@
 ﻿using CleanArch.Core.Data;
 using CleanArch.Core.Infra.Logging;
+using CleanArch.Core.Pipelines;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace CleanArch.Core
 {
@@ -14,7 +16,8 @@ namespace CleanArch.Core
             services.AddMediatR(typeof(Configuration));
             services.AddValidatorsFromAssembly(typeof(Configuration).Assembly);
 
-            services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            services.AddTransient<ILogger>(provider => new ConsoleLogging(LogLevel.Information));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatonBehavior<,>));
 
             return services;
