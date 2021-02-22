@@ -1,5 +1,6 @@
 ﻿using CleanArch.Core.Data;
 using CleanArch.Core.Infra.Logging;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,8 +12,10 @@ namespace CleanArch.Core
         public static IServiceCollection AddTodoApp(this IServiceCollection services)
         {
             services.AddMediatR(typeof(Configuration));
+            services.AddValidatorsFromAssembly(typeof(Configuration).Assembly);
 
             services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatonBehavior<,>));
 
             return services;
         }
