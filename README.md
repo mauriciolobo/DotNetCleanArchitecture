@@ -5,9 +5,7 @@ A tiny project based on Clean Architecture.
 Using Mediatr to deal with Requests/Responses
 
 ## Next Steps
-1. Add API Area
-1. Add pipeline for validating
-1. Add logging using pipeline
+1. Add Auth behavior
 1. ??? Split in projects ???
 
 ### How to use
